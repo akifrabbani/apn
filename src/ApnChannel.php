@@ -85,18 +85,18 @@ class ApnChannel
      */
     protected function sendNotifications($notifiable, $notification, $tokens, $message)
     {
+        $this->openConnection($message->credentials);
+        
         foreach ($tokens as $token) {
-            $this->openConnection($message->credentials);
-
             $this->sendNotification(
                 $notifiable,
                 $notification,
                 $this->adapter->adapt($message, $token),
                 $token
             );
-
-            $this->closeConnection();
         }
+
+        $this->closeConnection();
     }
 
     /**
